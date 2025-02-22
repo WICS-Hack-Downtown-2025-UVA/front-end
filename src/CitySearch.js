@@ -68,16 +68,16 @@ const CitySearch = () => {
     /** ✅ Fetch Recommendations from Flask API */
     const fetchRecommendations = async (city, placeId) => {
         if (!city) return;
-
+    
         try {
             const response = await fetch(`${PYTHON_API_URL}/${city}`);
             const data = await response.json();
-
+    
             if (response.ok) {
-                console.log("✅ Recommendations:", data.places);
-
-                // ✅ Navigate to ChatPage with Place ID & Recommendations
-                navigate("/chat", { state: { placeId, city, recommendations: data.places } });
+                console.log("✅ Full Recommendations Data:", data);
+    
+                // ✅ Ensure both places & restaurants are passed to ChatPage
+                navigate("/chat", { state: { placeId, city, recommendations: data } });
             } else {
                 console.error("❌ Error fetching recommendations:", data);
             }

@@ -3,43 +3,50 @@ import { useLocation } from "react-router-dom";
 
 const ChatPage = () => {
     const location = useLocation();
-    const { placeId, city, recommendations } = location.state || {};
+    let { placeId, city, recommendations } = location.state || {};
 
-    console.log("Received recommendations:", recommendations);
-    console.log("Type of recommendations:", typeof recommendations);
+    console.log("🔹 Raw Recommendations Object:", recommendations);
+    console.log("🔹 Type of Recommendations:", typeof recommendations);
 
-    // ✅ Extract only the 5 places from the recommendation string
-    const extractPlaces = (recommendations) => {
-        if (typeof recommendations !== "string") return [];
+    // ✅ Ensure recommendations is an object
+    if (!recommendations || typeof recommendations !== "object") {
+        console.error("❌ `recommendations` is missing or invalid!");
+        recommendations = { places: [], restaurants: [] };
+    }
 
-        // Split by newline and remove markdown formatting
-        return recommendations
-            .split("\n") // Split by new lines
-            .filter(line => line.match(/^\d+\./)) // Only keep lines that start with "1.", "2.", etc.
-            .map(line => line.replace(/^\d+\.\s*/, "").trim()); // Remove numbering (1., 2., etc.)
-    };
+    // ✅ Extract places and restaurants (default to empty array if undefined)
+    const places = Array.isArray(recommendations.places) ? recommendations.places : [];
+    const restaurants = Array.isArray(recommendations.restaurants) ? recommendations.restaurants : [];
 
-    const placesArray = extractPlaces(recommendations);
+    console.log("🔹 Extracted Places:", places);
+    console.log("🔹 Extracted Restaurants:", restaurants);
 
     return (
         <div style={{ display: "flex", height: "100vh" }}>
-            {/* Left Side: Chat Room Placeholder */}
+            {/* Left Side: Chat Room */}
             <div style={{ width: "50%", borderRight: "1px solid gray", padding: "20px" }}>
                 <h2>Chat Room</h2>
                 <p>Chat Room ID: {placeId}</p>
                 <p>Java WebSocket Chat Here</p>
             </div>
 
-            {/* Right Side: Place Recommendations */}
+            {/* Right Side: Recommendations */}
             <div style={{ width: "50%", padding: "20px" }}>
                 <h2>Recommended Places in {city}</h2>
                 <ul>
-                    {placesArray.length > 0 ? (
-                        placesArray.map((place, index) => (
-                            <li key={index}>{place}</li>
-                        ))
+                    {places.length > 0 ? (
+                        places.map((place, index) => <li key={index}>{place}</li>)
                     ) : (
-                        <p>No recommendations available.</p>
+                        <p>No place recommendations available.</p>
+                    )}
+                </ul>
+
+                <h2>Top Restaurants in {city}</h2>
+                <ul>
+                    {restaurants.length > 0 ? (
+                        restaurants.map((restaurant, index) => <li key={index}>{restaurant}</li>)
+                    ) : (
+                        <p>No restaurant recommendations available.</p>
                     )}
                 </ul>
             </div>
