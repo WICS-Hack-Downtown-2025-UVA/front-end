@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoadScript, GoogleMap } from "@react-google-maps/api";
+import { LoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const PYTHON_API_URL = "http://localhost:5001/recommendations"; // Flask API
@@ -12,6 +12,7 @@ const CitySearch = () => {
     const [apiLoaded, setApiLoaded] = useState(false); // Track API load status
     const [clickedLocation, setClickedLocation] = useState(null); // Stores clicked coordinates
     const [citySuggestions, setCitySuggestions] = useState([]); // Stores nearby cities
+    const [mapCenter, setMapCenter] = useState({ lat: 38.033554, lng: -78.507980 }); // Default center
     const inputRef = useRef(null); // Reference for input field
     const autocompleteRef = useRef(null); // Reference for Autocomplete
     const navigate = useNavigate();
@@ -23,8 +24,7 @@ const CitySearch = () => {
 
             autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
                 types: ["(cities)"], // ✅ Only return cities
-                componentRestrictions: { country: "us" }, // 🌍 Limit to US (Optional)
-                fields: ["place_id", "name"], // ✅ Restrict fields
+                fields: ["place_id", "name", "geometry"], // ✅ Added "geometry" to prevent errors
             });
 
             console.log("✅ Google Places Autocomplete Initialized");
@@ -41,6 +41,20 @@ const CitySearch = () => {
                 setPlaceId(place.place_id);
                 setCity(place.name);
                 setQuery(place.name); // Update input field
+
+                // ✅ Check if geometry exists before using it
+                if (place.geometry && place.geometry.location) {
+                    setMapCenter({
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng(),
+                    });
+                    setClickedLocation({
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng(),
+                    });
+                } else {
+                    console.warn("⚠️ No geometry found for this place.");
+                }
 
                 console.log("✅ Selected City:", place.name);
                 console.log("✅ Place ID:", place.place_id);
@@ -77,6 +91,7 @@ const CitySearch = () => {
         const lat = event.latLng.lat();
         const lng = event.latLng.lng();
         setClickedLocation({ lat, lng });
+        setMapCenter({ lat, lng }); // ✅ Center map on clicked location
 
         console.log("✅ Clicked Location:", lat, lng);
         fetchNearbyCities(lat, lng);
@@ -156,11 +171,13 @@ const CitySearch = () => {
 
                 {/* Google Map */}
                 <GoogleMap
-                    center={{ lat: 38.033554, lng: -78.507980 }} // Default center (Charlottesville, VA)
+                    center={mapCenter} // ✅ Center updates dynamically
                     zoom={10}
                     onClick={onMapClick}
-                    mapContainerStyle={{ width: "100%", height: "400px", marginTop: "20px" }}
-                />
+                    mapContainerStyle={{ width: "100%", height: "600px", marginTop: "20px" }} // ✅ Increased height to 600px
+                >
+                    {clickedLocation && <Marker position={clickedLocation} />} {/* ✅ Marker placed at clicked location */}
+                </GoogleMap>
             </div>
         </LoadScript>
     );
