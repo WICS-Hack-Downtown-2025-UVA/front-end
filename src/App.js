@@ -1,12 +1,17 @@
 import React from "react";
-import ReverseGeocodeMap from "./reverseGeocoder";  // ✅ Import ReverseGeocodeMap
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ReverseGeocodeMap from "./reverseGeocoder";
+import ChatPage from "./chatPage";
+import CitySearch from "./CitySearch";
 
 function App() {
     return (
-        <div>
-            <h1>AI Travel Assistant</h1>
-            <ReverseGeocodeMap />  {/* ✅ Render the map component */}
-        </div>
+        <Router>  {/* ✅ Wrap everything inside Router */}
+            <Routes>
+                <Route path="/" element={<CitySearch />} />
+                <Route path="/chat" element={<ChatPage />} />
+            </Routes>
+        </Router>
     );
 }
 
