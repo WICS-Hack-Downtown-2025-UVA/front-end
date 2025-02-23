@@ -59,6 +59,7 @@ const ChatBotComponent = ({ city, recommendations, onUpdateRecommendations }) =>
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Ask anything..."
+                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                 />
                 <button className="chatbot-send-btn" onClick={sendMessage}>Send</button>
             </div>

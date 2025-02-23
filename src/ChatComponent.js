@@ -117,6 +117,7 @@ const ChatComponent = () => {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Type a message..."
+                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                 />
                 <button className="chatroom-send-btn" onClick={sendMessage}>Send</button>
             </div>
