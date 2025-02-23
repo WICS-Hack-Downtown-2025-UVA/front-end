@@ -6,17 +6,16 @@ const WEBSOCKET_URL = "ws://localhost:8080/ws";
 const ChatComponent = () => {
     const location = useLocation();
     const { placeId } = location.state || {};
-
+    
     const [messages, setMessages] = useState([]);
     const [userCount, setUserCount] = useState(0);
     const [message, setMessage] = useState("");
-    
+    const messagesEndRef = useRef(null);
     const ws = useRef(null);
 
     useEffect(() => {
         if (!placeId) return;
 
-        // ✅ Prevent multiple WebSocket instances
         if (ws.current) {
             console.warn("WebSocket already exists. Not creating a new one.");
             return;
@@ -33,9 +32,13 @@ const ChatComponent = () => {
                 const data = JSON.parse(event.data);
 
                 if (data.type === "message") {
-                    setMessages((prev) => [...prev, data.chatMessage]);
+                    // ✅ Prevent duplicates by checking existing messages
+                    setMessages((prev) => {
+                        const exists = prev.some(msg => msg.timestamp === data.chatMessage.timestamp);
+                        return exists ? prev : [...prev, data.chatMessage];
+                    });
                 } else if (data.type === "history") {
-                    setMessages(data.messages.reverse()); // ✅ Ensure oldest messages appear at the top
+                    setMessages(data.messages.reverse());
                 } else if (data.type === "user_count") {
                     setUserCount(data.count);
                 }
@@ -48,16 +51,20 @@ const ChatComponent = () => {
             ws.current.onclose = () => {
                 console.log(`🔴 Disconnected from ${placeId}`);
             };
-        }, 100); // ✅ Small delay to prevent race conditions
+        }, 500);
 
         return () => {
-            console.log("Cleaning up WebSocket...");
             if (ws.current) {
                 ws.current.close();
                 ws.current = null;
             }
         };
-    }, [placeId]); // ✅ Prevents re-running unnecessarily
+    }, [placeId]);
+
+    /** ✅ Scroll to latest message */
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     const sendMessage = () => {
         if (!message.trim() || !ws.current) return;
@@ -77,10 +84,10 @@ const ChatComponent = () => {
             <p>Room ID: {placeId}</p>
             <p>Users Online: {userCount}</p>
 
-            <div style={{ height: "400px", overflowY: "scroll", border: "1px solid black", padding: "10px" }}>
+            <div style={{ height: "400px", overflowY: "auto", border: "1px solid black", padding: "10px", display: "flex", flexDirection: "column" }}>
                 {messages.length > 0 ? (
                     messages.map((msg, index) => (
-                        <div key={index}>
+                        <div key={index} style={{ marginBottom: "10px" }}>
                             <strong>{msg.sender || "User"}:</strong> {msg.content}
                             <p style={{ fontSize: "12px", color: "gray" }}>{msg.timestamp}</p>
                         </div>
@@ -88,6 +95,7 @@ const ChatComponent = () => {
                 ) : (
                     <p>No messages yet.</p>
                 )}
+                <div ref={messagesEndRef} />
             </div>
 
             <input
