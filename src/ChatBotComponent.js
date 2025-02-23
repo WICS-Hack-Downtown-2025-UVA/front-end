@@ -1,3 +1,4 @@
+import "./Styles/ChatComponents.css"
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -42,22 +43,25 @@ const ChatBotComponent = ({ city, recommendations, onUpdateRecommendations }) =>
     };
 
     return (
-        <div>
-            <h2>Chatbot</h2>
-            <div style={{ height: "400px", overflowY: "auto", border: "1px solid black", padding: "10px" }}>
+        <div className="chatbot-container">
+            <h2 className="chatbot-title">Chatbot</h2>
+            <div className="chatbot-messages">
                 {messages.map((msg, index) => (
-                    <div key={index}>
+                    <div key={index} className={`chatbot-message ${msg.sender.toLowerCase()}`}>
                         <strong>{msg.sender}:</strong> {msg.text}
                     </div>
                 ))}
             </div>
-            <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask anything..."
-            />
-            <button onClick={sendMessage}>Send</button>
+            <div className="chatbot-input-area">
+                <input
+                    className="chatbot-input"
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Ask anything..."
+                />
+                <button className="chatbot-send-btn" onClick={sendMessage}>Send</button>
+            </div>
         </div>
     );
 };

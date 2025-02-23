@@ -1,3 +1,4 @@
+import "./Styles/ChatPage.css"
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ChatComponent from "./ChatComponent";
@@ -21,51 +22,48 @@ const ChatPage = () => {
     };
 
     return (
-        <div style={{ display: "flex", height: "100vh" }}>
-            {/* Left Side: Chat Room */}
-            <div style={{ width: "33%", borderRight: "1px solid gray", padding: "20px" }}>
+        <div className="chat-page-container">
+            <div className="chat-section">
                 <ChatComponent placeId={placeId} />
             </div>
-
-            {/* Middle: Recommendations */}
-            <div style={{ width: "34%", borderRight: "1px solid gray", padding: "20px" }}>
-                <h2>Recommended Places in {city}</h2>
-                <ul>
+    
+            <div className="recommendations-section">
+                <h2 className="section-title">Recommended Places in {city}</h2>
+                <ul className="recommendations-list">
                     {recommendations.places.length > 0 ? (
                         recommendations.places.map((place, index) => {
-                            const placeName = place.split(" - ")[0]; // Extract name before "-"
+                            const placeName = place.split(" - ")[0];
                             const placeWithLink = `${place} <a href="${generateGoogleMapsLink(placeName, city)}" target="_blank" rel="noopener noreferrer">📍</a>`;
                             return (
-                                <li key={index} dangerouslySetInnerHTML={{ __html: placeWithLink }} />
+                                <li key={index} dangerouslySetInnerHTML={{ __html: placeWithLink }} className="recommendation-item"/>
                             );
                         })
                     ) : (
-                        <p>No recommendations available.</p>
+                        <p className="no-recommendations">No recommendations available.</p>
                     )}
                 </ul>
-
-                <h2>Top Restaurants in {city}</h2>
-                <ul>
+    
+                <h2 className="section-title">Top Restaurants in {city}</h2>
+                <ul className="recommendations-list">
                     {recommendations.restaurants.length > 0 ? (
                         recommendations.restaurants.map((restaurant, index) => {
-                            const restaurantName = restaurant.split(" - ")[0]; // Extract name before "-"
+                            const restaurantName = restaurant.split(" - ")[0];
                             const restaurantWithLink = `${restaurant} <a href="${generateGoogleMapsLink(restaurantName, city)}" target="_blank" rel="noopener noreferrer">📍</a>`;
                             return (
-                                <li key={index} dangerouslySetInnerHTML={{ __html: restaurantWithLink }} />
+                                <li key={index} dangerouslySetInnerHTML={{ __html: restaurantWithLink }} className="recommendation-item"/>
                             );
                         })
                     ) : (
-                        <p>No restaurant recommendations available.</p>
+                        <p className="no-recommendations">No restaurant recommendations available.</p>
                     )}
                 </ul>
             </div>
-
-            {/* Right Side: Chatbot */}
-            <div style={{ width: "33%", padding: "20px" }}>
-                <ChatBotComponent 
-                    city={city} 
-                    recommendations={recommendations}  // ✅ Pass current recommendations
-                    onUpdateRecommendations={handleUpdateRecommendations} 
+    
+            <div className="chatbot-section">
+                <ChatBotComponent
+                    city={city}
+                    recommendations={recommendations}
+                    onUpdateRecommendations={handleUpdateRecommendations}
                 />
             </div>
         </div>

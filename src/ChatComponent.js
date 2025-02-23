@@ -1,3 +1,4 @@
+import "./Styles/ChatComponents.css"
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -80,45 +81,45 @@ const ChatComponent = () => {
     };
 
     return (
-        <div>
-            <h2>Chat Room - {city || "Unknown City"}</h2> {/* ✅ Show city instead of Room ID */}
+        <div className="chatroom-container">
+            <h2 className="chatroom-title">Chat Room - {city || "Unknown City"}</h2>
+            <p className="chatroom-users">Users Online: {userCount}</p>
 
-            <p>Users Online: {userCount}</p>
-
-            {/* ✅ Username Input */}
-            <div>
+            <div className="chatroom-username">
                 <label>Username: </label>
                 <input
+                    className="chatroom-username-input"
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter your name"
-                    style={{ marginBottom: "10px" }}
                 />
             </div>
 
-            <div style={{ height: "400px", overflowY: "auto", border: "1px solid black", padding: "10px", display: "flex", flexDirection: "column" }}>
+            <div className="chatroom-messages">
                 {messages.length > 0 ? (
                     messages.map((msg, index) => (
-                        <div key={index} style={{ marginBottom: "10px" }}>
+                        <div key={index} className="chatroom-message">
                             <strong>{msg.sender || "Anonymous"}:</strong> {msg.content}
-                            <p style={{ fontSize: "12px", color: "gray" }}>{msg.timestamp}</p>
+                            <span className="chatroom-timestamp">{new Date(msg.timestamp).toLocaleString()}</span>
                         </div>
                     ))
                 ) : (
-                    <p>No messages yet.</p>
+                    <p className="no-chatroom-messages">No messages yet.</p>
                 )}
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* ✅ Message Input */}
-            <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type a message..."
-            />
-            <button onClick={sendMessage}>Send</button>
+            <div className="chatroom-input-area">
+                <input
+                    className="chatroom-input"
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Type a message..."
+                />
+                <button className="chatroom-send-btn" onClick={sendMessage}>Send</button>
+            </div>
         </div>
     );
 };

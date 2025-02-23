@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+.chatbot-container, .chatroom-container {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    height: 97%;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.chatbot-title, .chatroom-title {
+    margin-bottom: 12px;
+    font-size: 1.4em;
+    color: #344767;
+    border-bottom: 2px solid #eceff4;
+    padding-bottom: 5px;
+    margin-top: 15px;
+}
+
+.chatbot-messages, .chatroom-messages {
+    flex-grow: 1;
+    overflow-y: hidden;
+    margin-bottom: 8px;
+    padding-right: 4px;
+}
+
+.chatbot-message, .chatroom-message {
+    margin-bottom: 5px;
+    padding: 5px 8px;
+    background-color: #f5f7fa;
+    border-radius: 6px;
+    position: relative;
+}
+
+.chatbot-message.chatbot {
+    background-color: #e0f0ff;
+}
+
+.chatroom-timestamp {
+    display: block;
+    font-size: 0.65em;
+    color: #a0a9b8;
+    margin-top: 2px;
+}
+
+.chatbot-input-area, .chatroom-input-area {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.chatbot-input, .chatroom-input {
+    flex-grow: 2;
+    padding: 14px 18px;
+    border: 1px solid #e0e6ed;
+    border-radius: 6px;
+    font-size: 1.25em;
+}
+
+.chatroom-username-input {
+    flex-grow: 1;
+    padding: 4px 6px;
+    border: 1px solid #e0e6ed;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+.chatbot-send-btn, .chatroom-send-btn {
+    padding: 6px 12px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chatbot-send-btn:hover, .chatroom-send-btn:hover {
+    background-color: #2563eb;
+}
+
+.no-chatroom-messages {
+    color: #a0a9b8;
+    font-style: italic;
+}
+
+.chatroom-users {
+    color: #64748b;
+    font-size: 0.85em;
+    margin-bottom: 8px;
+}
+
+.chatroom-username {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.chatroom-username label {
+    color: #475569;
+    font-size: 0.85em;
+}
