@@ -1,96 +1,60 @@
-/* Import a modern font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
-/* General container layout */
 .chat-page-container {
     display: flex;
     height: 100vh;
-    background-color: #f3f7fb;
-    font-family: 'Poppins', sans-serif;
+    position: relative;
 }
 
-/* Left chat section */
+/* Default Layout */
 .chat-section {
     width: 33%;
-    border-right: 1px solid #e0e6ed;
-    padding: 15px;
-    overflow-y: auto;
-    background-color: #ffffff;
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+    border-right: 1px solid gray;
+    padding: 20px;
+    transition: width 0.3s ease-in-out;
 }
 
-/* Middle recommendations section */
 .recommendations-section {
     width: 34%;
-    border-right: 1px solid #e0e6ed;
-    padding: 10px;
-    overflow-y: auto;
-    background-color: #fbfcff;
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+    border-right: 1px solid gray;
+    padding: 20px;
+    transition: width 0.3s ease-in-out;
 }
 
-.section-title {
-    color: #344767;
-    margin-bottom: 10px;
-    font-size: 1.2em;
-    font-weight: 600;
-    border-bottom: 2px solid #eceff4;
-    padding-bottom: 3px;
-}
-
-.recommendations-list {
-    list-style: none;
-    padding-left: 0;
-}
-
-.recommendation-item {
-    padding: 5px 0;
-    font-size: 0.9em;
-    color: #4a5568;
-    border-bottom: 1px dashed #eaeef3;
-}
-
-.recommendation-item a {
-    text-decoration: none;
-    margin-left: 6px;
-    color: #3b82f6;
-    transition: color 0.3s ease;
-}
-
-.recommendation-item a:hover {
-    color: #2563eb;
-}
-
-.no-recommendations {
-    color: #9ca3af;
-    font-style: italic;
-}
-
-/* Right chatbot section */
 .chatbot-section {
     width: 33%;
-    padding: 15px;
-    overflow-y: auto;
-    background-color: #ffffff;
-    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    transition: width 0.3s ease-in-out, opacity 0.2s;
 }
 
-/* Scrollbar styling for better UX */
-.chat-section::-webkit-scrollbar,
-.recommendations-section::-webkit-scrollbar,
-.chatbot-section::-webkit-scrollbar {
-    width: 8px;
+/* Expanded Layout when Chatbot is Hidden */
+.chat-section.expanded,
+.recommendations-section.expanded {
+    width: 50%;
 }
 
-.chat-section::-webkit-scrollbar-thumb,
-.recommendations-section::-webkit-scrollbar-thumb,
-.chatbot-section::-webkit-scrollbar-thumb {
-    background-color: #cdd5df;
-    border-radius: 10px;
+/* Collapsed Chatbot */
+.chatbot-section.collapsed {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
 }
 
-.chat-section::-webkit-scrollbar-thumb:hover,
-.recommendations-section::-webkit-scrollbar-thumb:hover,
-.chatbot-section::-webkit-scrollbar-thumb:hover {
-    background-color: #aab5c4;
+/* Toggle Button */
+.toggle-chatbot-btn {
+    position: absolute;
+    right: 10px;
+    top: 6%;
+    transform: translateY(-50%);
+    padding: 10px;
+    cursor: pointer;
+    background: gray;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.toggle-chatbot-btn:hover {
+    background: darkgray;
 }

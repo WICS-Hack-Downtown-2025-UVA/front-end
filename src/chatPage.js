@@ -1,4 +1,4 @@
-import "./Styles/ChatPage.css"
+import "./Styles/ChatPage.css";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ChatComponent from "./ChatComponent";
@@ -21,13 +21,18 @@ const ChatPage = () => {
         return `https://www.google.com/maps/search/?api=1&query=${query}`;
     };
 
+    // ✅ State to toggle chatbot visibility
+    const [showChatbot, setShowChatbot] = useState(false);
+
     return (
         <div className="chat-page-container">
-            <div className="chat-section">
+            {/* Chat Section (Expands when chatbot is hidden) */}
+            <div className={`chat-section ${!showChatbot ? "expanded" : ""}`}>
                 <ChatComponent placeId={placeId} />
             </div>
     
-            <div className="recommendations-section">
+            {/* Recommendations Section (Expands when chatbot is hidden) */}
+            <div className={`recommendations-section ${!showChatbot ? "expanded" : ""}`}>
                 <h2 className="section-title">Recommended Places in {city}</h2>
                 <ul className="recommendations-list">
                     {recommendations.places.length > 0 ? (
@@ -58,14 +63,22 @@ const ChatPage = () => {
                     )}
                 </ul>
             </div>
-    
-            <div className="chatbot-section">
-                <ChatBotComponent
-                    city={city}
-                    recommendations={recommendations}
-                    onUpdateRecommendations={handleUpdateRecommendations}
-                />
+
+            {/* Chatbot Section (Collapsible) */}
+            <div className={`chatbot-section ${showChatbot ? "" : "collapsed"}`}>
+                {showChatbot && (
+                    <ChatBotComponent
+                        city={city}
+                        recommendations={recommendations}
+                        onUpdateRecommendations={handleUpdateRecommendations}
+                    />
+                )}
             </div>
+
+            {/* Toggle Button for Chatbot */}
+            <button className="toggle-chatbot-btn" onClick={() => setShowChatbot(!showChatbot)}>
+                {showChatbot ? "➤ Hide Chatbot" : "◀ Show Chatbot"}
+            </button>
         </div>
     );
 };
