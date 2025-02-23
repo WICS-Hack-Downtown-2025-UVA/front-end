@@ -5,6 +5,10 @@ import ChatComponent from "./ChatComponent";
 import ChatBotComponent from "./ChatBotComponent";
 
 const ChatPage = () => {
+    const goBack = () => {
+        window.location.href = "http://localhost:3000"; // ✅ Redirect back to home
+    };
+
     const location = useLocation();
     const { placeId, city, recommendations: initialRecommendations } = location.state || {};
 
@@ -26,6 +30,7 @@ const ChatPage = () => {
 
     return (
         <div className="chat-page-container">
+            <button onClick={goBack} className="back-button">⬅</button>
             {/* Chat Section (Expands when chatbot is hidden) */}
             <div className={`chat-section ${!showChatbot ? "expanded" : ""}`}>
                 <ChatComponent placeId={placeId} />
