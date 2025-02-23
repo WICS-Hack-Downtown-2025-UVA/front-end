@@ -193,7 +193,7 @@ const CitySearch = () => {
                         display: "flex",
                         justifyContent: "center",
                         position: "relative",
-                        marginTop: "-25px", 
+                        // marginTop: "1px", 
                         marginBottom: "25px" 
                     }}>
                         <input
