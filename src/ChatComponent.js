@@ -5,11 +5,12 @@ const WEBSOCKET_URL = "ws://localhost:8080/ws";
 
 const ChatComponent = () => {
     const location = useLocation();
-    const { placeId } = location.state || {};
+    const { placeId, city } = location.state || {};
     
     const [messages, setMessages] = useState([]);
     const [userCount, setUserCount] = useState(0);
     const [message, setMessage] = useState("");
+    const [username, setUsername] = useState("Anonymous"); // ✅ Default username
     const messagesEndRef = useRef(null);
     const ws = useRef(null);
 
@@ -25,14 +26,13 @@ const ChatComponent = () => {
             ws.current = new WebSocket(`${WEBSOCKET_URL}?placeId=${placeId}`);
 
             ws.current.onopen = () => {
-                console.log(`✅ Connected to chat room: ${placeId}`);
+                console.log(`✅ Connected to chat room: ${city}`);
             };
 
             ws.current.onmessage = (event) => {
                 const data = JSON.parse(event.data);
 
                 if (data.type === "message") {
-                    // ✅ Prevent duplicates by checking existing messages
                     setMessages((prev) => {
                         const exists = prev.some(msg => msg.timestamp === data.chatMessage.timestamp);
                         return exists ? prev : [...prev, data.chatMessage];
@@ -49,7 +49,7 @@ const ChatComponent = () => {
             };
 
             ws.current.onclose = () => {
-                console.log(`🔴 Disconnected from ${placeId}`);
+                console.log(`🔴 Disconnected from ${city}`);
             };
         }, 500);
 
@@ -70,6 +70,7 @@ const ChatComponent = () => {
         if (!message.trim() || !ws.current) return;
 
         const chatMessage = {
+            sender: username || "Anonymous", // ✅ Use set username or default
             content: message,
             timestamp: new Date().toISOString(),
         };
@@ -80,15 +81,27 @@ const ChatComponent = () => {
 
     return (
         <div>
-            <h2>Chat Room</h2>
-            <p>Room ID: {placeId}</p>
+            <h2>Chat Room - {city || "Unknown City"}</h2> {/* ✅ Show city instead of Room ID */}
+
             <p>Users Online: {userCount}</p>
+
+            {/* ✅ Username Input */}
+            <div>
+                <label>Username: </label>
+                <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter your name"
+                    style={{ marginBottom: "10px" }}
+                />
+            </div>
 
             <div style={{ height: "400px", overflowY: "auto", border: "1px solid black", padding: "10px", display: "flex", flexDirection: "column" }}>
                 {messages.length > 0 ? (
                     messages.map((msg, index) => (
                         <div key={index} style={{ marginBottom: "10px" }}>
-                            <strong>{msg.sender || "User"}:</strong> {msg.content}
+                            <strong>{msg.sender || "Anonymous"}:</strong> {msg.content}
                             <p style={{ fontSize: "12px", color: "gray" }}>{msg.timestamp}</p>
                         </div>
                     ))
@@ -98,6 +111,7 @@ const ChatComponent = () => {
                 <div ref={messagesEndRef} />
             </div>
 
+            {/* ✅ Message Input */}
             <input
                 type="text"
                 value={message}

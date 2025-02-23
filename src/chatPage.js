@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ChatComponent from "./ChatComponent";
-import ChatBotComponent from "./ChatBotComponent"; // ✅ Renamed correctly
+import ChatBotComponent from "./ChatBotComponent";
 
 const ChatPage = () => {
     const location = useLocation();
     const { placeId, city, recommendations: initialRecommendations } = location.state || {};
 
-    // ✅ Store recommendations in state to allow dynamic updates
     const [recommendations, setRecommendations] = useState(initialRecommendations || { places: [], restaurants: [] });
 
-    // ✅ Function to update recommendations from chatbot
     const handleUpdateRecommendations = (newRecommendations) => {
         setRecommendations(newRecommendations);
     };
@@ -27,7 +25,11 @@ const ChatPage = () => {
                 <h2>Recommended Places in {city}</h2>
                 <ul>
                     {recommendations.places.length > 0 ? (
-                        recommendations.places.map((place, index) => <li key={index}>{place}</li>)
+                        recommendations.places.map((place, index) => (
+                            <li key={index}>
+                                <span dangerouslySetInnerHTML={{ __html: place }} />
+                            </li>
+                        ))
                     ) : (
                         <p>No recommendations available.</p>
                     )}
@@ -36,7 +38,11 @@ const ChatPage = () => {
                 <h2>Top Restaurants in {city}</h2>
                 <ul>
                     {recommendations.restaurants.length > 0 ? (
-                        recommendations.restaurants.map((restaurant, index) => <li key={index}>{restaurant}</li>)
+                        recommendations.restaurants.map((restaurant, index) => (
+                            <li key={index}>
+                                <span dangerouslySetInnerHTML={{ __html: restaurant }} />
+                            </li>
+                        ))
                     ) : (
                         <p>No restaurant recommendations available.</p>
                     )}
@@ -45,11 +51,7 @@ const ChatPage = () => {
 
             {/* Right Side: Chatbot */}
             <div style={{ width: "33%", padding: "20px" }}>
-            <ChatBotComponent 
-                city={city} 
-                recommendations={recommendations}  // ✅ Pass recommendations as a prop
-                onUpdateRecommendations={handleUpdateRecommendations} 
-            />
+                <ChatBotComponent city={city} onUpdateRecommendations={handleUpdateRecommendations} />
             </div>
         </div>
     );
