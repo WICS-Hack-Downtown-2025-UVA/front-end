@@ -1,3 +1,17 @@
+/* 🌗 Light Mode */
+.light {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --border-color: #cccccc;
+  }
+  
+  /* 🌙 Dark Mode */
+  .dark {
+    --bg-color: #192A40;  /* ✅ Deep blue background */
+    --text-color: #D9A577; /* ✅ Warm gold text */
+    --border-color: #3A506B; /* ✅ Soft blue-gray borders */
+  }
+  
 .chat-page-container {
     display: flex;
     height: 100vh;
@@ -14,15 +28,28 @@
 
 .recommendations-section {
     width: 34%;
-    border-right: 1px solid gray;
-    padding: 20px;
-    transition: width 0.3s ease-in-out;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 30px;
+    overflow-y: auto; /* ✅ Enables scrolling if too much content */
+    flex-grow: 1; /* ✅ Makes it expand within available space */
+    min-height: 0; /* ✅ Prevents flex issues */
 }
 
 .chatbot-section {
     width: 33%;
     padding: 20px;
     transition: width 0.3s ease-in-out, opacity 0.2s;
+}
+
+.chat-section, .recommendations-section, .chatbot-section {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Expanded Layout when Chatbot is Hidden */
@@ -43,7 +70,7 @@
 .toggle-chatbot-btn {
     position: absolute;
     right: 10px;
-    top: 6%;
+    top: 4%;
     transform: translateY(-50%);
     padding: 10px;
     cursor: pointer;
@@ -57,21 +84,87 @@
 
 .toggle-chatbot-btn:hover {
     background: darkgray;
-}
+} 
 
 .back-button {
     position: absolute;
-    top: 6px;
-    left: 10px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
+    top: 10px;
+    left: 20px;
+    padding: 5px 8px; /* ✅ Reduced height */
+    background-color: var(--bg-color); /* ✅ Uses theme variable */
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px; /* ✅ Slightly smaller text */
+    transition: background-color 0.3s, color 0.3s, border 0.3s; /* ✅ Smooth transition */
 }
 
+/* ✅ Hover Effect */
 .back-button:hover {
-    background-color: #0056b3;
+    background-color: var(--border-color); /* ✅ Slightly darker on hover */
+    color: var(--bg-color);
+}
+
+/* 🌗 Light Mode */
+.light {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --border-color: #cccccc;
+}
+
+/* 🌙 Dark Mode */
+.dark {
+    --bg-color: #1a1a1a;
+    --text-color: #f5f5f5;
+    --border-color: #444444;
+}
+
+/* Apply Theme Variables */
+.chat-page-container {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    height: 100vh;
+    display: flex;
+}
+
+/* Sections */
+.chat-section, .recommendations-section, .chatbot-section {
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+}
+
+/* 🌗 Theme Toggle Button */
+.theme-toggle {
+    position: absolute;
+    top: 11px;
+    left: 60px;
+    background: var(--text-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 5px 6px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.theme-toggle:hover {
+    background: var(--border-color);
+}
+
+/* ✅ Allow Recommendations List to Expand Fully */
+.recommendations-list {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* ✅ Distributes space dynamically */
+    gap: 10px;
+    padding: 10px 5px; /* ✅ Prevents too much padding */
+    overflow-y: auto;
+}
+.recommendation-item {
+    padding-left: 5px; /* ✅ Push text away from the border */
+    list-style-position: inside; /* ✅ Ensures bullet points are visible */
 }

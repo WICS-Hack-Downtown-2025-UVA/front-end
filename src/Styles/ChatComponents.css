@@ -1,52 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
+/* 🌗 Light Mode */
+.light {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --border-color: #cccccc;
+  }
+  
+  /* 🌙 Dark Mode */
+  .dark {
+    --bg-color: #192A40;  /* ✅ Deep blue background */
+    --text-color: #D9A577; /* ✅ Warm gold text */
+    --border-color: #3A506B; /* ✅ Soft blue-gray borders */
+  }
+  
+
+/* ✅ Apply theme variables dynamically */
 .chatbot-container, .chatroom-container {
     display: flex;
     flex-direction: column;
     font-family: 'Inter', sans-serif;
-    background-color: #ffffff;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     padding: 10px;
     border-radius: 8px;
     height: 97%;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s, color 0.3s;
 }
 
+/* ✅ Chatbot and Chatroom Titles */
 .chatbot-title, .chatroom-title {
     margin-bottom: 12px;
     font-size: 1.4em;
-    color: #344767;
-    border-bottom: 2px solid #eceff4;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 5px;
     margin-top: 15px;
 }
 
+/* ✅ Message Area */
 .chatbot-messages, .chatroom-messages {
     flex-grow: 1;
-    overflow-y: hidden;
+    overflow-y: auto;
     margin-bottom: 8px;
     padding-right: 4px;
 }
 
+/* ✅ Ensure messages contrast properly */
 .chatbot-message, .chatroom-message {
     margin-bottom: 5px;
     padding: 5px 8px;
-    background-color: #f5f7fa;
+    background-color: var(--message-bg); /* ✅ Use new message background */
+    color: var(--text-color);
     border-radius: 6px;
     position: relative;
 }
 
+/* ✅ Differentiate chatbot messages */
 .chatbot-message.chatbot {
-    background-color: #e0f0ff;
+    background-color: #3b82f6; /* ✅ Keep chatbot messages distinguishable */
+    color: #ffffff;
 }
 
+/* ✅ Timestamp Styling */
 .chatroom-timestamp {
     display: block;
     font-size: 0.65em;
-    color: #a0a9b8;
+    color: var(--text-color);
     margin-top: 2px;
 }
 
+/* ✅ Adjust input areas to match theme */
 .chatbot-input-area, .chatroom-input-area {
     display: flex;
     gap: 4px;
@@ -56,19 +82,26 @@
 .chatbot-input, .chatroom-input {
     flex-grow: 2;
     padding: 14px 18px;
-    border: 1px solid #e0e6ed;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
     border-radius: 6px;
     font-size: 1.25em;
+    transition: background-color 0.3s, color 0.3s;
 }
 
+/* ✅ Adjust username input field */
 .chatroom-username-input {
     flex-grow: 1;
     padding: 4px 6px;
-    border: 1px solid #e0e6ed;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
     border-radius: 6px;
     font-size: 0.9em;
 }
 
+/* ✅ Adjust button colors */
 .chatbot-send-btn, .chatroom-send-btn {
     padding: 6px 12px;
     background-color: #3b82f6;
@@ -83,13 +116,15 @@
     background-color: #2563eb;
 }
 
+/* ✅ Placeholder text visibility */
 .no-chatroom-messages {
-    color: #a0a9b8;
+    color: var(--text-color);
     font-style: italic;
 }
 
+/* ✅ Adjust user count styling */
 .chatroom-users {
-    color: #64748b;
+    color: var(--text-color);
     font-size: 0.85em;
     margin-bottom: 8px;
 }
@@ -102,6 +137,6 @@
 }
 
 .chatroom-username label {
-    color: #475569;
+    color: var(--text-color);
     font-size: 0.85em;
 }

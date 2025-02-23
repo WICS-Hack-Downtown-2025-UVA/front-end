@@ -1,10 +1,10 @@
-import "./Styles/ChatComponents.css"
+import "./Styles/ChatComponents.css";
 import React, { useState } from "react";
 import axios from "axios";
 
 const CHATBOT_API_URL = "http://localhost:5001/recommendations/chatbot";
 
-const ChatBotComponent = ({ city, recommendations, onUpdateRecommendations }) => {  
+const ChatBotComponent = ({ city, recommendations, onUpdateRecommendations, theme }) => {  // ✅ Receive theme prop  
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
 
@@ -43,7 +43,7 @@ const ChatBotComponent = ({ city, recommendations, onUpdateRecommendations }) =>
     };
 
     return (
-        <div className="chatbot-container">
+        <div className={`chatbot-container ${theme}`}> {/* ✅ Apply theme */}
             <h2 className="chatbot-title">Chatbot</h2>
             <div className="chatbot-messages">
                 {messages.map((msg, index) => (

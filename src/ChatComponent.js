@@ -1,10 +1,10 @@
-import "./Styles/ChatComponents.css"
+import "./Styles/ChatComponents.css";
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 const WEBSOCKET_URL = "ws://localhost:8080/ws";
 
-const ChatComponent = () => {
+const ChatComponent = ({ theme }) => {  // ✅ Receive theme prop
     const location = useLocation();
     const { placeId, city } = location.state || {};
     
@@ -81,7 +81,7 @@ const ChatComponent = () => {
     };
 
     return (
-        <div className="chatroom-container">
+        <div className={`chatroom-container ${theme}`}>  {/* ✅ Apply theme */}
             <h2 className="chatroom-title">Chat Room - {city || "Unknown City"}</h2>
             <p className="chatroom-users">Users Online: {userCount}</p>
 

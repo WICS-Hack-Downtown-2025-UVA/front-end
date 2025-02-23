@@ -1,5 +1,5 @@
 import "./Styles/ChatPage.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ChatComponent from "./ChatComponent";
 import ChatBotComponent from "./ChatBotComponent";
@@ -7,6 +7,19 @@ import ChatBotComponent from "./ChatBotComponent";
 const ChatPage = () => {
     const goBack = () => {
         window.location.href = "http://localhost:3000"; // ✅ Redirect back to home
+    };
+    // 🌗 Theme State (Default: Dark Mode)
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem("theme") || "dark";
+    });
+
+    useEffect(() => {
+        document.body.className = theme; // Apply theme to body
+        localStorage.setItem("theme", theme); // Store in local storage
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(theme === "light" ? "dark" : "light");
     };
 
     const location = useLocation();
@@ -29,11 +42,17 @@ const ChatPage = () => {
     const [showChatbot, setShowChatbot] = useState(false);
 
     return (
-        <div className="chat-page-container">
+        <div className={`chat-page-container ${theme}`}>
             <button onClick={goBack} className="back-button">⬅</button>
+            <button onClick={toggleTheme} className="theme-toggle">
+                {theme === "light" ? "🌙 Dark Mode" : "☀ Light Mode"}
+            </button>
             {/* Chat Section (Expands when chatbot is hidden) */}
             <div className={`chat-section ${!showChatbot ? "expanded" : ""}`}>
-                <ChatComponent placeId={placeId} />
+                <ChatComponent
+                    placeId={placeId} 
+                    theme={theme}
+                />
             </div>
     
             {/* Recommendations Section (Expands when chatbot is hidden) */}
@@ -75,11 +94,11 @@ const ChatPage = () => {
                     <ChatBotComponent
                         city={city}
                         recommendations={recommendations}
+                        theme={theme}
                         onUpdateRecommendations={handleUpdateRecommendations}
                     />
                 )}
             </div>
-
             {/* Toggle Button for Chatbot */}
             <button className="toggle-chatbot-btn" onClick={() => setShowChatbot(!showChatbot)}>
                 {showChatbot ? "➤ Hide Chatbot" : "◀ Show Chatbot"}
