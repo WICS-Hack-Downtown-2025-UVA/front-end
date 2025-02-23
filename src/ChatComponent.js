@@ -98,16 +98,19 @@ const ChatComponent = ({ theme }) => {  // ✅ Receive theme prop
 
             <div className="chatroom-messages">
                 {messages.length > 0 ? (
-                    messages.map((msg, index) => (
-                        <div key={index} className="chatroom-message">
-                            <strong>{msg.sender || "Anonymous"}:</strong> {msg.content}
-                            <span className="chatroom-timestamp">{new Date(msg.timestamp).toLocaleString()}</span>
-                        </div>
-                    ))
+                    messages.map((msg, index) => {
+                        const isCurrentUser = msg.sender?.toLowerCase() === username.toLowerCase(); // ✅ Case-insensitive check
+                        return (
+                            <div key={index} className={`chatroom-message ${isCurrentUser ? "current-user" : "other-user"}`}>
+                                <strong>{msg.sender || "Anonymous"}:</strong> {msg.content}
+                                <span className="chatroom-timestamp">{new Date(msg.timestamp).toLocaleString()}</span>
+                            </div>
+                        );
+                    })
                 ) : (
                     <p className="no-chatroom-messages">No messages yet.</p>
                 )}
-                <div ref={messagesEndRef} />
+                <div ref={messagesEndRef} /> {/* ✅ Keeps auto-scroll behavior */}
             </div>
 
             <div className="chatroom-input-area">

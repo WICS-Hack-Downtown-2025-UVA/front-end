@@ -13,3 +13,57 @@ code {
     monospace;
 }
 
+/* ✅ Apply a friendly, smooth font for everything */
+* {
+  font-family: 'Poppins', sans-serif;  /* ✅ Default to Poppins */
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ✅ Chat Room & Chatbot titles */
+.chatbot-title, .chatroom-title {
+  font-family: 'Quicksand', sans-serif;  /* ✅ More casual for friendly headings */
+  font-weight: 600;
+  font-size: 1.6em;
+}
+
+/* ✅ Chat Messages */
+.chatbot-message, .chatroom-message {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1em;
+}
+
+/* ✅ Input Fields */
+.chatbot-input, .chatroom-input, .chatroom-username-input {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1em;
+}
+
+/* ✅ Buttons */
+.chatbot-send-btn, .chatroom-send-btn, .theme-toggle, .toggle-chatbot-btn, .back-button {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+}
+
+/* ✅ Ensure all elements inherit */
+body, .chat-page-container, .chatbot-container, .chatroom-container {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ✅ Buttons */
+.chatbot-send-btn, .chatroom-send-btn, .theme-toggle, .toggle-chatbot-btn, .back-button {
+  background-color: var(--border-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.chatbot-send-btn:hover, .chatroom-send-btn:hover {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+}

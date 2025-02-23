@@ -11,7 +11,7 @@ const ChatBotComponent = ({ city, recommendations, onUpdateRecommendations, them
     const sendMessage = async () => {
         if (!input.trim()) return;
     
-        const userMessage = { sender: "User", text: input };
+        const userMessage = { sender: "You", text: input };
         setMessages((prev) => [...prev, userMessage]);
     
         try {
